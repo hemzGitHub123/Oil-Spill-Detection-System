@@ -1,111 +1,86 @@
-# 🌊 Oil Spill Detection System
+<img width="930" height="395" alt="Screenshot 2026-07-15 083424" src="https://github.com/user-attachments/assets/8a39054c-b099-4f0c-8659-579e7e8e57af" /># 🌊 Oil Spill Detection System
 
-> **An AI-powered Computer Vision system for detecting oil spills in muddy flowing water using CCTV surveillance footage.**
+> **A Computer Vision-based system for detecting oil spills in muddy flowing water using CCTV video streams.**
+
+![Python](https://img.shields.io/badge/Python-3.x-blue?logo=python)
+![OpenCV](https://img.shields.io/badge/OpenCV-Computer%20Vision-green)
+![Status](https://img.shields.io/badge/Status-Completed-success)
+
+---
 
 # 📖 Overview
 
-Oil spill detection is essential for protecting water resources and ensuring industrial environmental safety. Conventional monitoring methods rely on manual inspection, making them time-consuming, expensive, and prone to human error.
+Oil spill detection is an important task in environmental monitoring and industrial safety. Detecting oil spills in muddy flowing water is particularly challenging because oil continuously changes shape and appearance while reflections, ripples, and varying lighting conditions often resemble oil.
 
-This project presents a **Computer Vision and Machine Learning-based Oil Spill Detection System** capable of detecting floating oil spills from **CCTV video streams captured over muddy flowing water**.
+This project presents a **Computer Vision-based Oil Spill Detection System** that processes CCTV video streams to identify floating oil spill regions. Instead of relying on deep learning object detection models, the system uses **HSV color analysis**, **Region of Interest (ROI) masking**, **morphological image processing**, **contour detection**, and **temporal filtering** to achieve stable and reliable oil spill detection.
 
-Unlike traditional object detection problems, oil spills do not have fixed shapes, sizes, or appearances. To overcome this challenge, the system combines advanced image processing techniques with machine learning to accurately distinguish oil spill regions from muddy water while minimizing false detections caused by ripples, reflections, and lighting variations.
-
----
-
-# 🎯 Project Objectives
-
-- Detect floating oil spills from CCTV footage.
-- Differentiate oil from muddy water under varying lighting conditions.
-- Reduce false positives caused by water ripples and reflections.
-- Build a robust and efficient real-time detection pipeline.
-- Provide visual alerts for detected oil spill regions.
+The project was developed to provide an efficient and lightweight solution suitable for real-time monitoring.
 
 ---
 
-# ✨ Key Highlights
+# 🎯 Objectives
 
-✔ Real-time oil spill detection from surveillance videos.
+- Detect floating oil spills from CCTV surveillance footage.
+- Differentiate oil spills from muddy water.
+- Reduce false detections caused by ripples and reflections.
+- Perform real-time video processing.
+- Visualize detected oil spill regions with bounding contours.
 
-✔ Designed specifically for challenging muddy water environments.
+---
 
-✔ Image enhancement using **CLAHE** for improved visibility.
+# ✨ Key Features
 
-✔ Motion analysis using **Dense Optical Flow**.
-
-✔ Texture extraction using **Local Binary Pattern (LBP)**.
-
-✔ Multi-scale texture analysis using **Wavelet Transform**.
-
-✔ Machine Learning-based classification using **XGBoost**.
-
-✔ Morphological refinement for noise removal.
-
-✔ Bounding-box visualization of detected oil regions.
-
-✔ Configurable detection parameters for different environments.
-
-✔ Modular architecture for easy maintenance and future upgrades.
+- Real-time video processing
+- HSV color space analysis
+- Hue and Saturation-based oil detection
+- Region of Interest (ROI) masking
+- Morphological noise removal
+- Contour extraction and visualization
+- Temporal filtering for stable detection
+- Configurable detection thresholds
+- Modular project architecture
 
 ---
 
 # 🏗 Detection Pipeline
 
 ```text
-CCTV Video
-      │
-      ▼
-Video Frame Extraction
-      │
-      ▼
-Image Enhancement (CLAHE)
-      │
-      ▼
-Noise Reduction
-      │
-      ▼
-Feature Extraction
- ├── Local Binary Pattern (LBP)
- ├── Dense Optical Flow
- └── Wavelet Features
-      │
-      ▼
-Feature Fusion
-      │
-      ▼
-Machine Learning Classification
-      │
-      ▼
-Morphological Refinement
-      │
-      ▼
-Oil Spill Detection & Visualization
+Input CCTV Video
+        │
+        ▼
+Frame Extraction
+        │
+        ▼
+HSV Color Conversion
+        │
+        ▼
+Hue & Saturation Analysis
+        │
+        ▼
+Region of Interest (ROI)
+        │
+        ▼
+Morphological Processing
+        │
+        ▼
+Contour Detection
+        │
+        ▼
+Temporal Consistency Filtering
+        │
+        ▼
+Oil Spill Visualization
 ```
 
 ---
 
-# 🛠 Tech Stack
+# 🛠 Technology Stack
 
 | Category | Technologies |
 |----------|--------------|
 | Programming Language | Python |
 | Computer Vision | OpenCV |
-| Machine Learning | XGBoost, Scikit-learn |
 | Numerical Computing | NumPy |
-| Image Processing | CLAHE, LBP, Wavelet Transform |
-| Visualization | OpenCV |
-
----
-
-# 🚀 Features
-
-- Real-time video processing
-- CCTV-based oil spill monitoring
-- High accuracy in muddy water conditions
-- Robust against water ripples
-- Bounding box visualization
-- Easy parameter configuration
-- Lightweight and efficient implementation
-- Modular project architecture
 
 ---
 
@@ -114,15 +89,15 @@ Oil Spill Detection & Visualization
 ```text
 Oil-Spill-Detection-System/
 │
-├── config.py
-├── cues.py
-├── detector.py
-├── temporal.py
-├── visualizer.py
-├── main.py
+├── config.py         # Configuration parameters
+├── cues.py           # HSV-based oil detection logic
+├── detector.py       # ROI masking and contour detection
+├── temporal.py       # Temporal filtering
+├── visualizer.py     # Detection visualization
+├── main.py           # Main application
 │
-├── input/
-├── output/
+├── input/            # Input videos
+├── output/           # Output videos
 │
 ├── requirements.txt
 ├── README.md
@@ -131,40 +106,82 @@ Oil-Spill-Detection-System/
 
 ---
 
-# 📊 Challenges Addressed
+# 🚀 Installation
 
-One of the major challenges in this project was that oil spills:
+Clone the repository
 
-- Have irregular and continuously changing shapes.
-- Reflect surrounding light, making them difficult to distinguish.
-- Blend with muddy water textures.
-- Produce different appearances under varying environmental conditions.
-- Can be confused with water ripples and surface reflections.
+```bash
+git clone https://github.com/hemzGitHub123/Oil-Spill-Detection-System.git
+```
 
-To address these challenges, the system combines multiple computer vision techniques instead of relying solely on object detection models.
+Navigate to the project
+
+```bash
+cd Oil-Spill-Detection-System
+```
+
+Install dependencies
+
+```bash
+pip install -r requirements.txt
+```
 
 ---
 
-# 📈 Applications
+# ▶️ Usage
+
+Update the input and output paths inside **config.py**
+
+```python
+input_video_path = "input/sample.mp4"
+output_video_path = "output/result.mp4"
+```
+
+Run the project
+
+```bash
+python main.py
+```
+
+Or use command-line arguments
+
+```bash
+python main.py --source input/sample.mp4 --output output/result.mp4
+```
+
+# ⚠ Challenges Addressed
+
+The system addresses several practical challenges encountered in oil spill detection:
+
+- Oil has irregular and continuously changing shapes.
+- Muddy water produces textures similar to oil.
+- Water ripples introduce false detections.
+- Reflections from the sky affect appearance.
+- Lighting conditions vary throughout the video.
+
+The implemented pipeline combines multiple computer vision techniques to improve detection stability while maintaining computational efficiency.
+
+---
+
+# 🌍 Applications
 
 - Environmental Monitoring
-- Oil Refineries
-- Industrial Wastewater Monitoring
-- Smart City Surveillance
+- Industrial Water Surveillance
+- Oil Refinery Monitoring
 - Water Pollution Detection
+- Smart CCTV Surveillance
 - Industrial Safety Systems
 
 ---
 
 # 🔮 Future Improvements
 
-- Semantic Segmentation using U-Net / DeepLabV3+
-- Edge AI deployment (Jetson/Raspberry Pi)
-- Cloud-based monitoring dashboard
-- Automatic email/SMS alert system
-- Multi-camera monitoring
-- Deep Learning-based classification
-- Temporal tracking for improved stability
+- Deep Learning-based Semantic Segmentation (U-Net / DeepLabV3+)
+- Edge AI Deployment
+- Automatic Alert System
+- Multi-camera Monitoring
+- Cloud Dashboard Integration
+- Performance Optimization for High-Resolution Videos
 
 ---
 
@@ -176,4 +193,6 @@ AI Developer | Machine Learning Engineer | Computer Vision Engineer
 
 ---
 
-⭐ If you found this project interesting, consider giving it a star on GitHub.
+# ⭐ Support
+
+If you found this project useful, consider giving it a ⭐ on GitHub.
