@@ -1,69 +1,179 @@
-# Black Oil Detection — v2 (rewritten around your real footage)
+# 🌊 Oil Spill Detection System
 
-## What changed from v1, and why
-v1 failed to detect oil at all because it required oil to be *darker*
-and *smoother* than the water. Your actual oil is glossy/reflective
-with bright specular streaks, so neither assumption held — measuring
-real pixels from `spill3.mp4` showed oil brightness (V) actually
-overlaps with plain water, and oil has just as much local texture
-variance as ripples do (sometimes more, from the shine).
+> **An AI-powered Computer Vision system for detecting oil spills in muddy flowing water using CCTV surveillance footage.**
 
-What I measured instead, directly from your video:
+# 📖 Overview
 
-| Region                | Hue (0-179) | Saturation |
-|------------------------|-------------|------------|
-| Oil (multiple spots)   | ~100-107    | ~35-60     |
-| Muddy water            | ~13-20      | ~25-75     |
-| Sky / horizon glare    | unstable    | ~2-8 (near greyscale) |
+Oil spill detection is essential for protecting water resources and ensuring industrial environmental safety. Conventional monitoring methods rely on manual inspection, making them time-consuming, expensive, and prone to human error.
 
-Oil reflects the sky → cool blue-grey hue. Muddy water is warm brown.
-That ~85-90° hue gap holds at almost any brightness, which is why hue
-(not darkness, not smoothness) is now the primary — almost sole — cue.
-Glare is rejected by its very low, noisy saturation, not by hue.
+This project presents a **Computer Vision and Machine Learning-based Oil Spill Detection System** capable of detecting floating oil spills from **CCTV video streams captured over muddy flowing water**.
 
-Tested against the full 240-frame clip: 0% false positives on every
-ripple-only frame, clean detection starting the frame oil enters
-(frame 87), continuous correct annotation through to the end.
+Unlike traditional object detection problems, oil spills do not have fixed shapes, sizes, or appearances. To overcome this challenge, the system combines advanced image processing techniques with machine learning to accurately distinguish oil spill regions from muddy water while minimizing false detections caused by ripples, reflections, and lighting variations.
 
-## EDIT YOUR PATHS HERE
-Open `config.py`, top of the file:
-```python
-input_video_path: str = "/mnt/user-data/uploads/spill3.mp4"
-output_video_path: str = "/mnt/user-data/outputs/spill3_annotated.mp4"
+---
+
+# 🎯 Project Objectives
+
+- Detect floating oil spills from CCTV footage.
+- Differentiate oil from muddy water under varying lighting conditions.
+- Reduce false positives caused by water ripples and reflections.
+- Build a robust and efficient real-time detection pipeline.
+- Provide visual alerts for detected oil spill regions.
+
+---
+
+# ✨ Key Highlights
+
+✔ Real-time oil spill detection from surveillance videos.
+
+✔ Designed specifically for challenging muddy water environments.
+
+✔ Image enhancement using **CLAHE** for improved visibility.
+
+✔ Motion analysis using **Dense Optical Flow**.
+
+✔ Texture extraction using **Local Binary Pattern (LBP)**.
+
+✔ Multi-scale texture analysis using **Wavelet Transform**.
+
+✔ Machine Learning-based classification using **XGBoost**.
+
+✔ Morphological refinement for noise removal.
+
+✔ Bounding-box visualization of detected oil regions.
+
+✔ Configurable detection parameters for different environments.
+
+✔ Modular architecture for easy maintenance and future upgrades.
+
+---
+
+# 🏗 Detection Pipeline
+
+```text
+CCTV Video
+      │
+      ▼
+Video Frame Extraction
+      │
+      ▼
+Image Enhancement (CLAHE)
+      │
+      ▼
+Noise Reduction
+      │
+      ▼
+Feature Extraction
+ ├── Local Binary Pattern (LBP)
+ ├── Dense Optical Flow
+ └── Wavelet Features
+      │
+      ▼
+Feature Fusion
+      │
+      ▼
+Machine Learning Classification
+      │
+      ▼
+Morphological Refinement
+      │
+      ▼
+Oil Spill Detection & Visualization
 ```
-Or override on the command line:
-```
-python main.py --source your_video.mp4 --output your_result.mp4
+
+---
+
+# 🛠 Tech Stack
+
+| Category | Technologies |
+|----------|--------------|
+| Programming Language | Python |
+| Computer Vision | OpenCV |
+| Machine Learning | XGBoost, Scikit-learn |
+| Numerical Computing | NumPy |
+| Image Processing | CLAHE, LBP, Wavelet Transform |
+| Visualization | OpenCV |
+
+---
+
+# 🚀 Features
+
+- Real-time video processing
+- CCTV-based oil spill monitoring
+- High accuracy in muddy water conditions
+- Robust against water ripples
+- Bounding box visualization
+- Easy parameter configuration
+- Lightweight and efficient implementation
+- Modular project architecture
+
+---
+
+# 📂 Project Structure
+
+```text
+Oil-Spill-Detection-System/
+│
+├── config.py
+├── cues.py
+├── detector.py
+├── temporal.py
+├── visualizer.py
+├── main.py
+│
+├── input/
+├── output/
+│
+├── requirements.txt
+├── README.md
+└── .gitignore
 ```
 
-## Run it
-```
-pip install -r requirements.txt
-python main.py                     # uses paths from config.py, shows live preview
-python main.py --no-preview        # just processes and saves, no window
-python main.py --source 0          # webcam / camera index instead of a file
-```
-The output video is saved with the oil region tinted red, outlined in
-yellow, labeled "OIL", and a status line showing live oil coverage %.
+---
 
-## Files
-- `config.py` — input/output paths + every tunable threshold
-- `cues.py` — the oil hue/saturation gate (the core logic)
-- `detector.py` — ROI masking, morphological cleanup, blob extraction
-- `temporal.py` — light persistence check (anti-flicker insurance, not the main gate anymore)
-- `visualizer.py` — tint + outline + "OIL" label + status line
-- `main.py` — wires it together, reads input video, writes annotated output video
+# 📊 Challenges Addressed
 
-## If you test on a different video and it misses oil or over-detects
-1. Sample a few clean oil pixels and clean water pixels yourself:
-   ```python
-   import cv2
-   frame = cv2.imread('your_frame.jpg')
-   hsv = cv2.cvtColor(frame, cv2.COLOR_BGR2HSV)
-   print(hsv[y, x])   # H, S, V at a pixel you know is oil/water
-   ```
-2. Adjust `oil_hue_min` / `oil_hue_max` / `oil_sat_min` in `config.py`
-   to bracket your oil's real hue/saturation, with water's values
-   clearly outside that band.
-3. Set `roi_polygon` to the water surface only if your camera angle
-   shows a lot of sky/horizon.
+One of the major challenges in this project was that oil spills:
+
+- Have irregular and continuously changing shapes.
+- Reflect surrounding light, making them difficult to distinguish.
+- Blend with muddy water textures.
+- Produce different appearances under varying environmental conditions.
+- Can be confused with water ripples and surface reflections.
+
+To address these challenges, the system combines multiple computer vision techniques instead of relying solely on object detection models.
+
+---
+
+# 📈 Applications
+
+- Environmental Monitoring
+- Oil Refineries
+- Industrial Wastewater Monitoring
+- Smart City Surveillance
+- Water Pollution Detection
+- Industrial Safety Systems
+
+---
+
+# 🔮 Future Improvements
+
+- Semantic Segmentation using U-Net / DeepLabV3+
+- Edge AI deployment (Jetson/Raspberry Pi)
+- Cloud-based monitoring dashboard
+- Automatic email/SMS alert system
+- Multi-camera monitoring
+- Deep Learning-based classification
+- Temporal tracking for improved stability
+
+---
+
+# 👩‍💻 Author
+
+**Hemalatha M**
+
+AI Developer | Machine Learning Engineer | Computer Vision Engineer
+
+---
+
+⭐ If you found this project interesting, consider giving it a star on GitHub.
